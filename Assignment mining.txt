@@ -1,0 +1,443 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder,StandardScaler
+from sklearn.linear_model import LinearRegression,Lasso
+from sklearn.metrics import mean_squared_error,mean_absolute_error
+from sklearn.ensemble import RandomForestRegressor 
+import warnings
+warnings.filterwarnings("ignore")
+from sklearn.model_selection import train_test_split
+
+
+# In[2]:
+
+
+df=pd.read_csv('dataset assignment.csv')
+df.head()
+
+
+# In[3]:
+
+
+X= df.iloc[:, :-1]
+y= df.iloc[:, -1]
+
+
+# In[4]:
+
+
+X_train, X_test, y_train, y_test= train_test_split(X, y, test_size=0.05, random_state=0)
+X= df.iloc[:, :-1]
+y= df.iloc[:, -1]
+
+
+# In[5]:
+
+
+X
+
+
+# In[6]:
+
+
+y
+
+
+# In[7]:
+
+
+dataTrain=pd.read_csv('dataset assignment.csv')
+dataTrain.head()
+
+
+# In[8]:
+
+
+dataTest=pd.read_csv('dataset assignment.csv')
+dataTest.head()
+
+
+# In[9]:
+
+
+dataTest.shape
+
+
+# In[10]:
+
+
+dataTrain.isnull().sum()
+
+
+# In[11]:
+
+
+dataTest.isnull().sum()
+
+
+# In[12]:
+
+
+dataTrain=dataTrain.dropna()
+dataTest=dataTest.dropna()
+
+
+# In[13]:
+
+
+dataTrain.isnull().sum()
+
+
+# In[14]:
+
+
+dataTest.isnull().sum()
+
+
+# In[15]:
+
+
+dataTest.shape
+
+
+# In[16]:
+
+
+dataTrain.dtypes
+
+
+# In[70]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="work_year", y="salary", data=df)
+
+
+# In[18]:
+
+
+from scipy import stats 
+
+
+# In[71]:
+
+
+pearson_coef, p_value = stats.pearsonr(df['work_year'],df['salary'])  
+print("The Pearson Correlation Coefficient is", pearson_coef, " with a P-value of P =", p_value) 
+
+
+# In[72]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="work_year", y="salary", data=df)
+
+
+# In[73]:
+
+
+pearson_coef, p_value = stats.pearsonr(df['experience_level'], df['salary'])
+print("The Pearson Correlation Coefficient is", pearson_coef, " with a P-value of P =", p_value) 
+
+
+# In[74]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="experience_level", y="salary", data=df)
+
+
+# In[75]:
+
+
+pearson_coef, p_value = stats.pearsonr(df['employment_type'], df['salary'])
+print("The Pearson Correlation Coefficient is", pearson_coef, " with a P-value of P =", p_value)
+
+
+# In[79]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="job_title", y="salary", data=df)
+
+
+# In[80]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="employee_residence", y="salary", data=df)
+
+
+# In[81]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="remote_ratio", y="salary", data=df)
+
+
+# In[82]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="company_location", y="salary", data=df)
+
+
+# In[83]:
+
+
+plt.figure(figsize=(10,6))
+sns.regplot(x="company_size", y="salary", data=df)
+
+
+# In[84]:
+
+
+sns.boxplot(x="work_year", y="salary", data=df)
+
+
+# In[86]:
+
+
+sns.boxplot(x="experience_level", y="salary", data=df)
+
+
+# In[88]:
+
+
+sns.boxplot(x="employment_type", y="salary", data=df)
+
+
+# In[90]:
+
+
+plt.figure(figsize=(10,6))
+sns.boxplot(x="job_title", y="salary", data=df)
+
+
+# In[92]:
+
+
+sns.boxplot(x="employee_residence", y="salary", data=df)
+
+
+# In[94]:
+
+
+sns.boxplot(x="remote_ratio", y="salary", data=df)
+
+
+# In[96]:
+
+
+sns.boxplot(x="company_location", y="salary", data=df)
+
+
+# In[98]:
+
+
+sns.boxplot(x="company_size", y="salary", data=df)
+
+
+# In[125]:
+
+
+dataTrain.drop(['work_year', 'job_title'], axis = 1, inplace = True)
+
+
+# In[37]:
+
+
+company_location.shape
+
+
+# In[39]:
+
+
+dataTrain.describe()
+
+
+# In[40]:
+
+
+dataTrain.describe(include=['object'])
+
+
+# In[47]:
+
+
+labelencoder = LabelEncoder()
+df.job_title = labelencoder.fit_transform(df.job_title)
+df.experience_level= labelencoder.fit_transform(df.experience_level)
+df.company_location= labelencoder.fit_transform(df.company_location)
+df.company_size= labelencoder.fit_transform(df.company_size)
+
+
+# In[48]:
+
+
+df.head(10)
+
+
+# In[45]:
+
+
+df.head(10)
+
+
+# In[49]:
+
+
+import scipy.stats as stats
+df = stats.zscore(df)
+
+
+# In[52]:
+
+
+X= df.iloc[:, :-1]
+y= df.iloc[:, -1]
+X_train, X_test,  y_test, y_train= train_test_split(X, y, test_size=0.2, random_state=0)
+
+
+# In[53]:
+
+
+X_train
+
+
+# In[54]:
+
+
+X_test
+
+
+# In[56]:
+
+
+y_test
+
+
+# In[57]:
+
+
+y_train
+
+
+# In[128]:
+
+
+rg = LinearRegression()
+mdl=rg.fit(X_train,y_train)
+
+
+# In[131]:
+
+
+y_pred1 = rg.predict(X_test)
+
+
+# In[133]:
+
+
+print('The R-square for Multiple Linear regression is: ', rg.score(X_train,y_train))
+
+
+# In[134]:
+
+
+mse1 = mean_squared_error(y_test, y_pred1)
+print('The mean square error for Multiple Linear Regression: ', mse1)
+
+
+# In[135]:
+
+
+mae1= mean_absolute_error(y_test, y_pred1)
+print('The mean absolute error for Multiple Linear Regression: ', mae1)
+
+
+# In[136]:
+
+
+plt.figure(figsize=(10,6))
+
+ax1 = sns.distplot(y_test, hist=False, color="r", label="Actual Value")
+sns.distplot(y_pred1, hist=False, color="b", label="Fitted Values" , ax=ax1)
+
+
+# In[140]:
+
+
+plt.title('Actual vs Fitted Values for Price')
+plt.xlabel('Price (in dollars)')
+plt.ylabel('Proportion of Cars')
+plt.show()
+plt.close()
+
+
+# In[142]:
+
+
+rf = RandomForestRegressor()
+model=rf.fit(X_train,y_train)
+
+
+# In[144]:
+
+
+y_pred2 = rf.predict(X_test)
+
+
+# In[145]:
+
+
+print('The R-square for Random Forest is: ', rf.score(X_train,y_train))
+
+
+# In[146]:
+
+
+mse2 = mean_squared_error(y_test, y_pred2)
+print('The mean square error of price and predicted value is: ', mse2)
+
+
+# In[147]:
+
+
+mae2= mean_absolute_error(y_test, y_pred2)
+print('The mean absolute error of price and predicted value is: ', mae2)
+
+
+# In[148]:
+
+
+plt.figure(figsize=(10,6))
+
+ax1 = sns.distplot(y_test, hist=False, color="r", label="Actual Value")
+sns.distplot(y_pred2, hist=False, color="b", label="Fitted Values" , ax=ax1)
+
+
+# In[149]:
+
+
+plt.title('Actual vs Fitted Values for Price')
+plt.xlabel('Price (in dollars)')
+plt.ylabel('Proportion of Cars')
+
+plt.show()
+plt.close()
+
+
+# In[ ]:
+
+
+
+
